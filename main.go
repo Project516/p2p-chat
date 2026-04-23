@@ -5,14 +5,19 @@ import "os"
 import "net"
 import "bufio"
 
+//import "crypto/rand"
+//import "io"
+//import "encoding/binary"
+//import "golang.org/x/crypto/nacl/box"
+
 func main() {
 
 	args := os.Args
 
-	if (len(args) > 1) {
-		if (args[1] == "listen") {
+	if len(args) > 1 {
+		if args[1] == "listen" {
 			listen(args[2])
-		} else if (args[1] == "connect") {
+		} else if args[1] == "connect" {
 			connect(args[2])
 		} else {
 			fmt.Println("Usage: go run . [listen|connect] address")
@@ -28,7 +33,7 @@ func listen(address string) {
 		panic(err)
 	}
 	fmt.Println("Listening on " + address)
-	conn, err := ln.Accept();
+	conn, err := ln.Accept()
 	if err != nil {
 		panic(err)
 	}
