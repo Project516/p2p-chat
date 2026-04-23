@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 import "os"
+import "net"
 
 func main() {
 
@@ -9,7 +10,7 @@ func main() {
 
 	if (len(args) > 1) {
 		if (args[1] == "listen") {
-			fmt.Println("Listening...")
+			listen(args[2])
 		} else if (args[1] == "connect") {
 			fmt.Println("Connecting...")
 		} else {
@@ -18,4 +19,9 @@ func main() {
 	} else {
 		fmt.Println("Usage: go run . [listen|connect] address")
 	}
+}
+
+func listen(address string) {
+	net.Listen("tcp", address)
+	fmt.Println("Listening on " + address)
 }
