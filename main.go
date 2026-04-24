@@ -11,11 +11,12 @@ func main() {
 	args := os.Args
 
 	if len(args) > 1 {
-		if args[1] == "listen" {
+		switch args[1] {
+		case "listen":
 			chat.Listen(args[2])
-		} else if args[1] == "connect" {
+		case "connect":
 			chat.Connect(args[2])
-		} else {
+		default:
 			fmt.Println("Usage: go run . [listen|connect] address")
 		}
 	} else {
