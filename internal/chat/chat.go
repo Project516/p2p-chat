@@ -44,6 +44,7 @@ func handle(conn net.Conn) {
 			if err != nil {
 				if err == io.EOF {
 					fmt.Println("Disconnected")
+					return
 				} else {
 					fmt.Println("Read error:", err)
 				}
