@@ -44,7 +44,7 @@ func handle(conn net.Conn) {
 			if err != nil {
 				if err == io.EOF {
 					fmt.Println("Disconnected")
-					return
+					os.Exit(0)
 				} else {
 					fmt.Println("Read error:", err)
 				}
@@ -58,7 +58,7 @@ func handle(conn net.Conn) {
 					continue
 				}
 			}
-			fmt.Println("friend>", string(decrypted))
+			fmt.Printf("\nfriend> %s\n>", string(decrypted))
 		}
 	}()
 	scanner := bufio.NewScanner(os.Stdin)
@@ -72,5 +72,6 @@ func handle(conn net.Conn) {
 		if err != nil {
 			panic(err)
 		}
+		fmt.Print("> ")
 	}
 }
