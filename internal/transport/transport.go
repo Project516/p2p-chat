@@ -5,6 +5,8 @@ import (
 	"io"
 )
 
+// for sending messages
+
 func SendFrame(w io.Writer, data []byte) error {
 	length := uint16(len(data))
 	lenBuf := make([]byte, 2)
@@ -19,6 +21,8 @@ func SendFrame(w io.Writer, data []byte) error {
 	}
 	return nil
 }
+
+// for receiving messages
 
 func ReceiveFrame(r io.Reader) ([]byte, error) {
 	var lenBuf [2]byte

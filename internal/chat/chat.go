@@ -10,6 +10,8 @@ import (
 	"p2p-chat/internal/transport"
 )
 
+// Listen function
+
 func Listen(address string) {
 	ln, err := net.Listen("tcp", address)
 	if err != nil {
@@ -24,6 +26,8 @@ func Listen(address string) {
 	handle(conn)
 }
 
+// Connect function
+
 func Connect(address string) {
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
@@ -32,6 +36,8 @@ func Connect(address string) {
 	fmt.Println("Connected to " + address)
 	handle(conn)
 }
+
+// Handle function - during chat
 
 func handle(conn net.Conn) {
 	sharedKey, err := crypto.ExchangeKeys(conn, conn)

@@ -8,6 +8,8 @@ import (
 	"golang.org/x/crypto/nacl/box"
 )
 
+// inital key exchange
+
 func ExchangeKeys(r io.Reader, w io.Writer) (*[32]byte, error) {
 	pub, priv, err := box.GenerateKey(rand.Reader)
 	if err != nil {
@@ -28,6 +30,8 @@ func ExchangeKeys(r io.Reader, w io.Writer) (*[32]byte, error) {
 	return &sharedKey, nil
 }
 
+// encrypt message function
+
 func Encrypt(plaintext []byte, sharedKey *[32]byte) ([]byte, error) {
 	var nonce [24]byte
 	_, err := io.ReadFull(rand.Reader, nonce[:])
@@ -37,6 +41,8 @@ func Encrypt(plaintext []byte, sharedKey *[32]byte) ([]byte, error) {
 	ciphertext := box.SealAfterPrecomputation(nonce[:], plaintext, &nonce, sharedKey)
 	return ciphertext, nil
 }
+
+// decrypt message function
 
 func Decrypt(encrypted []byte, sharedKey *[32]byte) ([]byte, error) {
 	if len(encrypted) < 24 {

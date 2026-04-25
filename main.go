@@ -6,6 +6,8 @@ import (
 	"p2p-chat/internal/chat"
 )
 
+// main function - kept small on purpose
+
 func main() {
 
 	args := os.Args
