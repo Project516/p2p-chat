@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"strings"
 	"p2p-chat/crypto"
 	"p2p-chat/internal/transport"
 )
@@ -44,6 +45,8 @@ func handle(conn net.Conn) {
 	if err != nil {
 		panic(err)
 	}
+	var nick string = "friend"
+	prompt := "> "
 	go func() {
 		for {
 			encrypted, err := transport.ReceiveFrame(conn)
@@ -64,13 +67,35 @@ func handle(conn net.Conn) {
 					continue
 				}
 			}
-			fmt.Printf("\nfriend> %s\n>", string(decrypted))
+			fmt.Printf("\n%s\n>", string(decrypted))
 		}
 	}()
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print(prompt)
 	for scanner.Scan() {
 		text := scanner.Text()
-		ciphertext, err := crypto.Encrypt([]byte(text), sharedKey)
+		if strings.HasPrefix(text, "/nick") {
+			newNick := strings.TrimSpace(text[6:])
+			if newNick == "" {
+				fmt.Println("Nickname cannot be empty.")
+			} else {
+				nickChangeAlert := "! " + nick + " changed their nickname to " + newNick
+				ciphertext, err := crypto.Encrypt([]byte(nickChangeAlert), sharedKey)
+				if err != nil {
+					panic(err)
+				}
+				err = transport.SendFrame(conn, ciphertext)
+				if err != nil {
+					panic(err)
+				}
+				nick = newNick
+				fmt.Print("> ")
+				continue
+			}
+		}
+		messageText := text
+		messageText = nick + "> " + text
+		ciphertext, err := crypto.Encrypt([]byte(messageText), sharedKey)
 		if err != nil {
 			panic(err)
 		}
@@ -78,6 +103,6 @@ func handle(conn net.Conn) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Print("> ")
+		fmt.Print(prompt)
 	}
 }
