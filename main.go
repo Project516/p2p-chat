@@ -18,6 +18,9 @@ func main() {
 	if len(args) > 1 {
 		switch args[1] {
 		case "listen":
+			if len(args) == 2 {
+				fmt.Println("Error: No port given")
+			}
 			chat.Listen(args[2])
 		case "connect":
 			chat.Connect(args[2])
