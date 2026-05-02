@@ -77,6 +77,7 @@ func handle(conn net.Conn) {
 	fmt.Print(prompt)
 	for scanner.Scan() {
 		text := scanner.Text()
+		// slash commands
 		if strings.HasPrefix(text, "/nick") { // nickname command
 			if len(text) < 7 {
 				fmt.Println("Usage: /nick <nickname>")
@@ -111,7 +112,10 @@ func handle(conn net.Conn) {
 			fmt.Println("Disconnecting...")
 			os.Exit(0)
 		} else if strings.HasPrefix(text, "/help") { // help command
-			fmt.Print("\n! help menu:\n! run /nick to change nickname\n! run /quit to leave chat\n! run /help to display this menu\n\n>")
+			fmt.Print("\n! help menu:\n! run /nick to change nickname\n! run /quit to leave chat\n! run /version to display program version\n! run /help to display this menu\n\n>")
+			continue
+		} else if strings.HasPrefix(text, "/version") { // version command
+			fmt.Print("p2p version: " + "1.o.0-alpha") //TODO replace with a global variable (read from a version.txt file?)
 			continue
 		}
 		messageText := text
