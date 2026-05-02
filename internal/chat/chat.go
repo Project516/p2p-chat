@@ -102,8 +102,8 @@ func handle(conn net.Conn) {
 				panic(err)
 			}
 			os.Exit(0)
-		} else if strings.HasPrefix(text, "/help") {
-			fmt.Println("help menu\nrun /nick to change nickname\nrun /quit to leave chat\n>")
+		} else if strings.HasPrefix(text, "/help") { // help command
+			fmt.Print("\n! help menu:\n! run /nick to change nickname\n! run /quit to leave chat\n! run /help to display this menu\n\n>")
 			continue
 		}
 		messageText := text
