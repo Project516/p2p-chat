@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/nacl/box"
 )
 
-// inital key exchange
+// initial key exchange
 
 func ExchangeKeys(r io.Reader, w io.Writer) (*[32]byte, error) {
 	pub, priv, err := box.GenerateKey(rand.Reader)

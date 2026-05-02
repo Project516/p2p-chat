@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"net"
 	"os"
 	"p2p-chat/crypto"
@@ -21,7 +22,8 @@ func Listen(address string) {
 	fmt.Println("Listening on " + address)
 	conn, err := ln.Accept()
 	if err != nil {
-		panic(err)
+		log.Printf("accept error: %v", err)
+		return
 	}
 	fmt.Println("Connected")
 	handle(conn)
@@ -41,6 +43,7 @@ func Connect(address string) {
 // Handle function - during chat
 
 func handle(conn net.Conn) {
+	defer conn.Close()
 	sharedKey, err := crypto.ExchangeKeys(conn, conn)
 	if err != nil {
 		panic(err)
@@ -53,10 +56,10 @@ func handle(conn net.Conn) {
 			if err != nil {
 				if err == io.EOF {
 					fmt.Println("Disconnected")
-					os.Exit(0)
 				} else {
 					fmt.Println("Read error:", err)
 				}
+				os.Exit(0)
 			}
 			decrypted, err := crypto.Decrypt(encrypted, sharedKey)
 			if err != nil {
@@ -75,22 +78,26 @@ func handle(conn net.Conn) {
 	for scanner.Scan() {
 		text := scanner.Text()
 		if strings.HasPrefix(text, "/nick") { // nickname command
-			newNick := strings.TrimSpace(text[6:])
-			if newNick == "" {
-				fmt.Println("Nickname cannot be empty.")
+			if len(text) < 7 {
+				fmt.Println("Usage: /nick <nickname>")
 			} else {
-				nickChangeAlert := "! " + nick + " changed their nickname to " + newNick
-				ciphertext, err := crypto.Encrypt([]byte(nickChangeAlert), sharedKey)
-				if err != nil {
-					panic(err)
+				newNick := strings.TrimSpace(text[6:])
+				if newNick == "" {
+					fmt.Println("Nickname cannot be empty.")
+				} else {
+					nickChangeAlert := "! " + nick + " changed their nickname to " + newNick
+					ciphertext, err := crypto.Encrypt([]byte(nickChangeAlert), sharedKey)
+					if err != nil {
+						panic(err)
+					}
+					err = transport.SendFrame(conn, ciphertext)
+					if err != nil {
+						panic(err)
+					}
+					nick = newNick
+					fmt.Print("> ")
+					continue
 				}
-				err = transport.SendFrame(conn, ciphertext)
-				if err != nil {
-					panic(err)
-				}
-				nick = newNick
-				fmt.Print("> ")
-				continue
 			}
 		} else if strings.HasPrefix(text, "/quit") { // quit command
 			ciphertext, err := crypto.Encrypt([]byte("!"+nick+" left the chat"), sharedKey)
