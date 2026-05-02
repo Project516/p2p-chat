@@ -108,6 +108,7 @@ func handle(conn net.Conn) {
 			if err != nil {
 				panic(err)
 			}
+			fmt.Println("Disconnecting...")
 			os.Exit(0)
 		} else if strings.HasPrefix(text, "/help") { // help command
 			fmt.Print("\n! help menu:\n! run /nick to change nickname\n! run /quit to leave chat\n! run /help to display this menu\n\n>")
