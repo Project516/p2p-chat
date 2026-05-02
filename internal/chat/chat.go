@@ -6,9 +6,9 @@ import (
 	"io"
 	"net"
 	"os"
-	"strings"
 	"p2p-chat/crypto"
 	"p2p-chat/internal/transport"
+	"strings"
 )
 
 // Listen function
@@ -74,7 +74,7 @@ func handle(conn net.Conn) {
 	fmt.Print(prompt)
 	for scanner.Scan() {
 		text := scanner.Text()
-		if strings.HasPrefix(text, "/nick") {
+		if strings.HasPrefix(text, "/nick") { // nickname command
 			newNick := strings.TrimSpace(text[6:])
 			if newNick == "" {
 				fmt.Println("Nickname cannot be empty.")
@@ -92,6 +92,19 @@ func handle(conn net.Conn) {
 				fmt.Print("> ")
 				continue
 			}
+		} else if strings.HasPrefix(text, "/quit") { // quit command
+			ciphertext, err := crypto.Encrypt([]byte("!"+nick+" left the chat"), sharedKey)
+			if err != nil {
+				panic(err)
+			}
+			err = transport.SendFrame(conn, ciphertext)
+			if err != nil {
+				panic(err)
+			}
+			os.Exit(0)
+		} else if strings.HasPrefix(text, "/help") {
+			fmt.Println("help menu\nrun /nick to change nickname\nrun /quit to leave chat\n>")
+			continue
 		}
 		messageText := text
 		messageText = nick + "> " + text
