@@ -18,8 +18,11 @@ func main() {
 	if len(args) > 1 {
 		switch args[1] {
 		case "listen":
+			// fallback if not port given
 			if len(args) == 2 {
 				fmt.Println("Error: No port given")
+				fmt.Println("Defaulting to port :5555")
+				chat.Listen("localhost:5555")
 			}
 			chat.Listen(args[2])
 		case "connect":
