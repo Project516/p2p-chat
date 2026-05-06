@@ -7,8 +7,7 @@ import (
 	"p2p-chat/internal/version"
 )
 
-// main function - kept small on purpose
-
+// main function
 func main() {
 
 	args := os.Args

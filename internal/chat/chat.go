@@ -14,7 +14,6 @@ import (
 )
 
 // Listen function
-
 func Listen(address string) {
 	ln, err := net.Listen("tcp", address)
 	if err != nil {
@@ -31,7 +30,6 @@ func Listen(address string) {
 }
 
 // Connect function
-
 func Connect(address string) {
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
@@ -42,7 +40,6 @@ func Connect(address string) {
 }
 
 // Handle function - during chat
-
 func handle(conn net.Conn) {
 	defer conn.Close()
 	sharedKey, err := crypto.ExchangeKeys(conn, conn)

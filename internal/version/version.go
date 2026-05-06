@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// read version 
 func ReadVersion() string {
 	content, err := os.ReadFile("assets/version.txt")
 	if err != nil {

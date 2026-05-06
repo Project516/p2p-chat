@@ -9,7 +9,6 @@ import (
 )
 
 // initial key exchange
-
 func ExchangeKeys(r io.Reader, w io.Writer) (*[32]byte, error) {
 	pub, priv, err := box.GenerateKey(rand.Reader)
 	if err != nil {
@@ -31,7 +30,6 @@ func ExchangeKeys(r io.Reader, w io.Writer) (*[32]byte, error) {
 }
 
 // encrypt message function
-
 func Encrypt(plaintext []byte, sharedKey *[32]byte) ([]byte, error) {
 	var nonce [24]byte
 	_, err := io.ReadFull(rand.Reader, nonce[:])
@@ -43,7 +41,6 @@ func Encrypt(plaintext []byte, sharedKey *[32]byte) ([]byte, error) {
 }
 
 // decrypt message function
-
 func Decrypt(encrypted []byte, sharedKey *[32]byte) ([]byte, error) {
 	if len(encrypted) < 24 {
 		return nil, fmt.Errorf("encrypted message to short")
