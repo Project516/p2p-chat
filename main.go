@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"os"
 	"p2p-chat/internal/chat"
+	"p2p-chat/internal/version"
 )
 
 // main function - kept small on purpose
 
 func main() {
-
-	var version = "1.0.0-alpha"
 
 	args := os.Args
 
@@ -28,7 +27,7 @@ func main() {
 		case "connect":
 			chat.Connect(args[2])
 		case "version":
-			fmt.Println("p2p-chat version: " + version)
+			fmt.Println("p2p-chat version: " + version.ReadVersion())
 		default:
 			fmt.Println("Usage: go run . [listen|connect] address")
 		}

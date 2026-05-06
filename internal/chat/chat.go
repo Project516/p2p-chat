@@ -9,6 +9,7 @@ import (
 	"os"
 	"p2p-chat/crypto"
 	"p2p-chat/internal/transport"
+	"p2p-chat/internal/version"
 	"strings"
 )
 
@@ -115,8 +116,7 @@ func handle(conn net.Conn) {
 			fmt.Print("\n! help menu:\n! run /nick to change nickname\n! run /quit to leave chat\n! run /version to display program version\n! run /help to display this menu\n\n>")
 			continue
 		} else if strings.HasPrefix(text, "/version") { // version command
-			fmt.Print("p2p version: " + "1.o.0-alpha") //TODO replace with a global variable (read from a version.txt file?)
-			continue
+			fmt.Print("p2p version: " + version.ReadVersion())
 		}
 		messageText := text
 		messageText = nick + "> " + text
