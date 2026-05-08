@@ -2,6 +2,6 @@ module p2p-chat
 
 go 1.26.2
 
-require golang.org/x/crypto v0.50.0
+require golang.org/x/crypto v0.51.0
 
-require golang.org/x/sys v0.43.0 // indirect
+require golang.org/x/sys v0.44.0 // indirect
