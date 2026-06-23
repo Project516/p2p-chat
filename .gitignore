@@ -1,2 +1,36 @@
-go1.26.2.linux-amd64.tar.gz
+# Binaries
 p2p-chat
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go install archive (from install-go.sh)
+go1.26.2.linux-amd64.tar.gz
+go*.linux-*.tar.gz
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of go coverage tool
+*.out
+*.prof
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# IDE / Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
