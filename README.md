@@ -4,7 +4,7 @@ Simple peer to peer chat written in go.
 
 ## Requirements
 
-* go 1.26.2
+* go 1.26.5
 
 ## Usage
 
