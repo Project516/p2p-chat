@@ -23,3 +23,17 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+
+    - name: Go fmt
+      run: |
+        # Fail the job if any files are not gofmt-clean.
+        unformatted=$(gofmt -l .)
+        if [ -n "$unformatted" ]; then
+          echo "::error::The following files are not gofmt-clean:"
+          echo "$unformatted"
+          echo "Run 'go fmt ./...' and commit the changes."
+          exit 1
+        fi
+
+    - name: Go vet
+      run: go vet ./...
