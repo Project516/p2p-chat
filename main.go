@@ -21,9 +21,15 @@ func main() {
 				fmt.Println("Error: No port given")
 				fmt.Println("Defaulting to port :5555")
 				chat.Listen("localhost:5555")
+				return
 			}
 			chat.Listen(args[2])
 		case "connect":
+			if len(args) < 3 {
+				fmt.Println("Error: No address given")
+				fmt.Println("Usage: go run . connect <address>")
+				return
+			}
 			chat.Connect(args[2])
 		case "version":
 			fmt.Println("p2p-chat version: " + version.ReadVersion())
