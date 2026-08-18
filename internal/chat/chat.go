@@ -79,10 +79,14 @@ func handle(conn net.Conn) {
 		if strings.HasPrefix(text, "/nick") { // nickname command
 			if len(text) < 7 {
 				fmt.Println("Usage: /nick <nickname>")
+				fmt.Print(prompt)
+				continue
 			} else {
 				newNick := strings.TrimSpace(text[6:])
 				if newNick == "" {
 					fmt.Println("Nickname cannot be empty.")
+					fmt.Print(prompt)
+					continue
 				} else {
 					nickChangeAlert := "! " + nick + " changed their nickname to " + newNick
 					ciphertext, err := crypto.Encrypt([]byte(nickChangeAlert), sharedKey)
@@ -114,6 +118,8 @@ func handle(conn net.Conn) {
 			continue
 		} else if strings.HasPrefix(text, "/version") { // version command
 			fmt.Print("p2p version: " + version.ReadVersion())
+			fmt.Print(prompt)
+			continue
 		}
 		messageText := text
 		messageText = nick + "> " + text
