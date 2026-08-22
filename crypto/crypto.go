@@ -43,7 +43,7 @@ func Encrypt(plaintext []byte, sharedKey *[32]byte) ([]byte, error) {
 // decrypt message function
 func Decrypt(encrypted []byte, sharedKey *[32]byte) ([]byte, error) {
 	if len(encrypted) < 24 {
-		return nil, fmt.Errorf("encrypted message to short")
+		return nil, fmt.Errorf("encrypted message too short")
 	}
 	var nonce [24]byte
 	copy(nonce[:], encrypted[:24])
