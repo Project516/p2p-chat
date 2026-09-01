@@ -12,7 +12,7 @@ Run `go run . listen localhost:5555` to start a server. Then run `go run . conne
 
 ### Commands
 
-* `/nick`: change display name (for yourself on other users screen)
+* `/nick`: change display name (for yourself on other user's screen)
 * `/quit`: quit the chat
 * `/version`: display program version
 * `/help`: display available commands
